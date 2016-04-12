@@ -13,7 +13,7 @@ To enable 24bit colour add 24bit use flag for rxvt-unicode
 *More patches are planned in the future*
 
 #### Testing colour support
-[This script](https://raw.github.com/sQu1rr/sQu1rr-overlay/assets/bash/truecolor.sh)
+[This script](https://raw.github.com/sQu1rr/sQu1rr-overlay/assets/bash/truecolours.sh)
 will test for terminal colour support
 
 Without 24bit use flag:
