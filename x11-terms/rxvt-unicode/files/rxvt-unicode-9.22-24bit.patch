@@ -1,4 +1,5 @@
 diff --git a/config.h.in b/config.h.in
+index 914d606..4b08524 100644
 --- a/config.h.in
 +++ b/config.h.in
 @@ -383,6 +383,9 @@
@@ -12,6 +13,7 @@ diff --git a/config.h.in b/config.h.in
  #ifndef _ALL_SOURCE
  # undef _ALL_SOURCE
 diff --git a/configure b/configure
+index 83fbb4b..d7df22c 100755
 --- a/configure
 +++ b/configure
 @@ -713,6 +713,7 @@ enable_everything
@@ -52,6 +54,7 @@ diff --git a/configure b/configure
  if test "${enable_unicode3+set}" = set; then :
    enableval=$enable_unicode3; if test x$enableval = xyes -o x$enableval = xno; then
 diff --git a/configure.ac b/configure.ac
+index 0da3b59..bc9a7de 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -201,6 +201,16 @@ if test x$support_256_color = xyes; then
@@ -72,6 +75,7 @@ diff --git a/configure.ac b/configure.ac
    [  --enable-unicode3       use 21 instead of 16 bits to represent unicode characters],
    [if test x$enableval = xyes -o x$enableval = xno; then
 diff --git a/src/background.C b/src/background.C
+index 0ec1044..193603e 100644
 --- a/src/background.C
 +++ b/src/background.C
 @@ -312,7 +312,7 @@ rxvt_term::render_image (rxvt_image &image)
@@ -102,6 +106,7 @@ diff --git a/src/background.C b/src/background.C
        if (rs [Rs_shade])
          root_effects.set_shade (rs [Rs_shade]);
 diff --git a/src/command.C b/src/command.C
+index f347836..7340e8a 100644
 --- a/src/command.C
 +++ b/src/command.C
 @@ -1845,11 +1845,11 @@ rxvt_term::update_fade_color (unsigned int idx, bool first_time)
@@ -177,9 +182,10 @@ diff --git a/src/command.C b/src/command.C
            case 49:		/* default bg */
              scr_color (Color_bg, Color_bg);
 diff --git a/src/init.C b/src/init.C
+index 2b15590..565b5ba 100644
 --- a/src/init.C
 +++ b/src/init.C
-@@ -1073,7 +1073,7 @@ rxvt_term::get_colors ()
+@@ -1072,7 +1073,7 @@ rxvt_term::get_colors ()
  
    for (i = 0; i < NRS_COLORS; i++)
      if (const char *name = rs[Rs_color + i])
@@ -188,7 +194,7 @@ diff --git a/src/init.C b/src/init.C
  
    /*
     * get scrollBar shadow colors
-@@ -1082,13 +1082,13 @@ rxvt_term::get_colors ()
+@@ -1081,13 +1082,13 @@ rxvt_term::get_colors ()
     * from the fvwm window manager.
     */
  #ifdef RXVT_SCROLLBAR
@@ -205,7 +211,7 @@ diff --git a/src/init.C b/src/init.C
                     rgba (
                       min ((int)rgba::MAX_CC, max (cscroll.r / 5, cscroll.r) * 7 / 5),
                       min ((int)rgba::MAX_CC, max (cscroll.g / 5, cscroll.g) * 7 / 5),
-@@ -1330,8 +1330,8 @@ rxvt_term::create_windows (int argc, const char *const *argv)
+@@ -1329,8 +1330,8 @@ rxvt_term::create_windows (int argc, const char *const *argv)
    window_calc (0, 0);
  
    /* sub-window placement & size in rxvt_term::resize_all_windows () */
@@ -216,7 +222,7 @@ diff --git a/src/init.C b/src/init.C
    attributes.colormap         = cmap;
  
    top = XCreateWindow (dpy, parent,
-@@ -1428,8 +1428,8 @@ rxvt_term::create_windows (int argc, const char *const *argv)
+@@ -1427,8 +1428,8 @@ rxvt_term::create_windows (int argc, const char *const *argv)
                              window_vt_x, window_vt_y,
                              vt_width, vt_height,
                              0,
@@ -227,7 +233,7 @@ diff --git a/src/init.C b/src/init.C
  
    attributes.bit_gravity = NorthWestGravity;
    XChangeWindowAttributes (dpy, vt, CWBitGravity, &attributes);
-@@ -1446,8 +1446,8 @@ rxvt_term::create_windows (int argc, const char *const *argv)
+@@ -1445,8 +1446,8 @@ rxvt_term::create_windows (int argc, const char *const *argv)
    vt_ev.start (display, vt);
  
    /* graphics context for the vt window */
@@ -239,9 +245,10 @@ diff --git a/src/init.C b/src/init.C
  
    gc = XCreateGC (dpy, vt,
 diff --git a/src/main.C b/src/main.C
+index 93ef9cc..dee0274 100644
 --- a/src/main.C
 +++ b/src/main.C
-@@ -255,10 +255,10 @@ rxvt_term::~rxvt_term ()
+@@ -254,10 +255,10 @@ rxvt_term::~rxvt_term ()
        for (int i = 0; i < TOTAL_COLORS; i++)
          if (ISSET_PIXCOLOR (i))
            {
@@ -254,7 +261,21 @@ diff --git a/src/main.C b/src/main.C
  #endif
            }
  
-@@ -972,8 +972,8 @@ rxvt_term::set_window_color (int idx, const char *color)
+@@ -833,7 +834,12 @@ rxvt_term::set_fonts ()
+   delete fontset[0];
+   fontset[0] = fs;
+ 
+-  prop = (*fs)[rxvt_fontset::firstFont]->properties ();
++  rxvt_font *first_font = (*fs)[rxvt_fontset::firstFont];
++
++  first_font->ascent += lineSpace;
++
++  prop = first_font->properties ();
++  prop.height += lineSpace;
+   prop.width = max (prop.width + letterSpace, 1);
+ 
+   fs->set_prop (prop, false);
+@@ -971,8 +977,8 @@ rxvt_term::set_window_color (int idx, const char *color)
          }
      }
  
@@ -265,7 +286,7 @@ diff --git a/src/main.C b/src/main.C
  
  done:
    /*TODO: handle Color_BD, scrollbar background, etc. */
-@@ -990,12 +990,12 @@ rxvt_term::recolor_cursor ()
+@@ -989,12 +995,12 @@ rxvt_term::recolor_cursor ()
    XColor fg, bg;
  
    (ISSET_PIXCOLOR (Color_pointer_fg)
@@ -282,7 +303,7 @@ diff --git a/src/main.C b/src/main.C
  
    XRecolorCursor (dpy, TermWin_cursor, &fg, &bg);
  }
-@@ -1014,14 +1014,14 @@ rxvt_term::get_colorfgbg ()
+@@ -1013,14 +1019,14 @@ rxvt_term::get_colorfgbg ()
    char *env_colorfgbg;
  
    for (i = Color_Black; i <= Color_White; i++)
@@ -299,7 +320,7 @@ diff --git a/src/main.C b/src/main.C
        {
          sprintf (bstr, "%d", i - Color_Black);
  #if BG_IMAGE_FROM_FILE
-@@ -1050,8 +1050,8 @@ rxvt_term::set_color (rxvt_color &color, const char *name)
+@@ -1049,8 +1055,8 @@ rxvt_term::set_color (rxvt_color &color, const char *name)
  void
  rxvt_term::alias_color (int dst, int src)
  {
@@ -310,7 +331,7 @@ diff --git a/src/main.C b/src/main.C
  }
  
  /* -------------------------------------------------------------------- *
-@@ -1189,8 +1189,8 @@ rxvt_term::set_widthheight (unsigned int newwidth, unsigned int newheight)
+@@ -1188,8 +1194,8 @@ rxvt_term::set_widthheight (unsigned int newwidth, unsigned int newheight)
  void
  rxvt_term::im_set_color (unsigned long &fg, unsigned long &bg)
  {
@@ -322,6 +343,7 @@ diff --git a/src/main.C b/src/main.C
  
  void
 diff --git a/src/rxvt.h b/src/rxvt.h
+index 5c7cf66..0aa1e48 100644
 --- a/src/rxvt.h
 +++ b/src/rxvt.h
 @@ -39,7 +39,11 @@ typedef uint32_t text_t;
@@ -470,6 +492,7 @@ diff --git a/src/rxvt.h b/src/rxvt.h
    void scr_backspace () NOTHROW;
    void scr_tab (int count, bool ht = false) NOTHROW;
 diff --git a/src/rxvtfont.C b/src/rxvtfont.C
+index 1914539..b07db54 100644
 --- a/src/rxvtfont.C
 +++ b/src/rxvtfont.C
 @@ -243,20 +243,20 @@ rxvt_font::clear_rect (rxvt_drawable &d, int x, int y, int w, int h, int color)
@@ -573,6 +596,7 @@ diff --git a/src/rxvtfont.C b/src/rxvtfont.C
  }
  
 diff --git a/src/rxvtfont.h b/src/rxvtfont.h
+index 239c0ee..c4c6d7d 100644
 --- a/src/rxvtfont.h
 +++ b/src/rxvtfont.h
 @@ -72,8 +72,10 @@ struct rxvt_fontset
@@ -589,9 +613,118 @@ diff --git a/src/rxvtfont.h b/src/rxvtfont.h
    enum { fontCount = 127 };
  #endif
 diff --git a/src/rxvtperl.xs b/src/rxvtperl.xs
+index 9c75aad..881622e 100644
 --- a/src/rxvtperl.xs
 +++ b/src/rxvtperl.xs
-@@ -2171,8 +2171,8 @@ Window
+@@ -789,6 +789,18 @@ MODULE = urxvt             PACKAGE = urxvt
+ 
+ PROTOTYPES: ENABLE
+ 
++TYPEMAP: <<END
++rend_t T_UINT
++
++INPUT
++T_UINT
++  $var = ($type)SvUV($arg);
++
++OUTPUT
++T_UINT
++  sv_setuv($arg, (UV)$var);
++END
++
+ BOOT:
+ {
+   sv_setsv (get_sv ("urxvt::LIBDIR",   1), newSVpvn (LIBDIR,   sizeof (LIBDIR)   - 1));
+@@ -1069,43 +1081,43 @@ NOW ()
+         OUTPUT:
+         RETVAL
+ 
+-int
+-GET_BASEFG (int rend)
++rend_t
++GET_BASEFG (rend_t rend)
+ 	CODE:
+         RETVAL = GET_BASEFG (rend);
+ 	OUTPUT:
+         RETVAL
+ 
+-int
+-GET_BASEBG (int rend)
++rend_t
++GET_BASEBG (rend_t rend)
+ 	CODE:
+         RETVAL = GET_BASEBG (rend);
+ 	OUTPUT:
+         RETVAL
+ 
+-int
+-SET_FGCOLOR (int rend, int new_color)
++rend_t
++SET_FGCOLOR (rend_t rend, int new_color)
+ 	CODE:
+         RETVAL = SET_FGCOLOR (rend, clamp (new_color, 0, TOTAL_COLORS - 1));
+ 	OUTPUT:
+         RETVAL
+ 
+-int
+-SET_BGCOLOR (int rend, int new_color)
++rend_t
++SET_BGCOLOR (rend_t rend, int new_color)
+ 	CODE:
+         RETVAL = SET_BGCOLOR (rend, clamp (new_color, 0, TOTAL_COLORS - 1));
+ 	OUTPUT:
+         RETVAL
+ 
+-int
+-GET_CUSTOM (int rend)
++rend_t
++GET_CUSTOM (rend_t rend)
+ 	CODE:
+         RETVAL = (rend & RS_customMask) >> RS_customShift;
+ 	OUTPUT:
+         RETVAL
+ 
+-int
+-SET_CUSTOM (int rend, int new_value)
++rend_t
++SET_CUSTOM (rend_t rend, int new_value)
+ 	CODE:
+ {
+         if (!IN_RANGE_EXC (new_value, 0, RS_customCount))
+@@ -1515,8 +1527,8 @@ rxvt_term::vt_emask_add (U32 emask)
+         THIS->vt_emask_perl |= emask;
+         THIS->vt_select_input ();
+ 
+-U32
+-rxvt_term::rstyle (U32 new_rstyle = THIS->rstyle)
++rend_t
++rxvt_term::rstyle (rend_t new_rstyle = THIS->rstyle)
+ 	CODE:
+         RETVAL = THIS->rstyle;
+         THIS->rstyle = new_rstyle;
+@@ -2003,10 +2015,10 @@ rxvt_term::cur_charset ()
+         RETVAL
+ 
+ void
+-rxvt_term::scr_xor_rect (int beg_row, int beg_col, int end_row, int end_col, U32 rstyle1 = RS_RVid, U32 rstyle2 = RS_RVid | RS_Uline)
++rxvt_term::scr_xor_rect (int beg_row, int beg_col, int end_row, int end_col, rend_t rstyle1 = RS_RVid, rend_t rstyle2 = RS_RVid | RS_Uline)
+ 
+ void
+-rxvt_term::scr_xor_span (int beg_row, int beg_col, int end_row, int end_col, U32 rstyle = RS_RVid)
++rxvt_term::scr_xor_span (int beg_row, int beg_col, int end_row, int end_col, rend_t rstyle = RS_RVid)
+ 
+ void
+ rxvt_term::scr_bell ()
+@@ -2072,7 +2084,7 @@ rxvt_term::cmd_parse (SV *octets)
+ }
+ 
+ SV *
+-rxvt_term::overlay (int x, int y, int w, int h, int rstyle = OVERLAY_RSTYLE, int border = 2)
++rxvt_term::overlay (int x, int y, int w, int h, rend_t rstyle = OVERLAY_RSTYLE, int border = 2)
+ 	CODE:
+ {
+         overlay *o = new overlay (THIS, x, y, w, h, rstyle, border);
+@@ -2171,8 +2183,8 @@ Window
  XCreateSimpleWindow (rxvt_term *term, Window parent, int x, int y, unsigned int width, unsigned int height)
  	C_ARGS: term->dpy, (Window)parent,
                  x, y, width, height, 0,
@@ -602,7 +735,7 @@ diff --git a/src/rxvtperl.xs b/src/rxvtperl.xs
  
  #endif
  
-@@ -2299,7 +2299,7 @@ rxvt_term::set_background (rxvt_img *img, bool border = false)
+@@ -2299,7 +2311,7 @@ rxvt_term::set_background (rxvt_img *img, bool border = false)
              img->reify ()
                 ->replace (img);
  
@@ -612,9 +745,10 @@ diff --git a/src/rxvtperl.xs b/src/rxvtperl.xs
  
              THIS->bg_img = img;
 diff --git a/src/screen.C b/src/screen.C
+index c053df1..51bccae 100644
 --- a/src/screen.C
 +++ b/src/screen.C
-@@ -626,12 +626,52 @@ rxvt_term::scr_color (unsigned int color, int fgbg) NOTHROW
+@@ -625,12 +626,52 @@ rxvt_term::scr_color (unsigned int color, int fgbg) NOTHROW
      rstyle = SET_BGCOLOR (rstyle, color);
  }
  
@@ -668,7 +802,7 @@ diff --git a/src/screen.C b/src/screen.C
  {
    if (set)
      rstyle |= style;
-@@ -1389,13 +1429,13 @@ rxvt_term::scr_erase_screen (int mode) NOTHROW
+@@ -1388,13 +1429,13 @@ rxvt_term::scr_erase_screen (int mode) NOTHROW
  
        if (mapped)
          {
@@ -684,7 +818,7 @@ diff --git a/src/screen.C b/src/screen.C
            XChangeGC (dpy, gc, GCForeground, &gcvalue);
          }
      }
-@@ -1716,15 +1756,15 @@ rxvt_term::scr_rvideo_mode (bool on) NOTHROW
+@@ -1715,15 +1756,15 @@ rxvt_term::scr_rvideo_mode (bool on) NOTHROW
      {
        rvideo_state = on;
  
@@ -704,7 +838,7 @@ diff --git a/src/screen.C b/src/screen.C
        XChangeGC (dpy, gc, GCBackground | GCForeground, &gcvalue);
  
        scr_clear ();
-@@ -2422,14 +2462,14 @@ rxvt_term::scr_refresh () NOTHROW
+@@ -2421,14 +2462,14 @@ rxvt_term::scr_refresh () NOTHROW
              {
                if (showcursor && focus && row == screen.cur.row
                    && IN_RANGE_EXC (col, cur_col, cur_col + cursorwidth))
@@ -722,7 +856,7 @@ diff --git a/src/screen.C b/src/screen.C
  
                XDrawLine (dpy, vt, gc,
                           xpixel, ypixel + font->ascent + 1,
-@@ -2449,7 +2489,7 @@ rxvt_term::scr_refresh () NOTHROW
+@@ -2448,7 +2489,7 @@ rxvt_term::scr_refresh () NOTHROW
              scr_set_char_rend (ROW(screen.cur.row), cur_col, cur_rend);
            else if (oldcursor.row >= 0)
              {
@@ -731,7 +865,7 @@ diff --git a/src/screen.C b/src/screen.C
                if (cursor_type == 1)
                  XFillRectangle (dpy, vt, gc,
                                  Col2Pixel (cur_col),
-@@ -2466,7 +2506,7 @@ rxvt_term::scr_refresh () NOTHROW
+@@ -2465,7 +2506,7 @@ rxvt_term::scr_refresh () NOTHROW
          }
        else if (oldcursor.row >= 0)
          {
@@ -740,7 +874,7 @@ diff --git a/src/screen.C b/src/screen.C
  
            XDrawRectangle (dpy, vt, gc,
                            Col2Pixel (cur_col),
-@@ -2535,15 +2575,15 @@ rxvt_term::scr_recolor (bool refresh) NOTHROW
+@@ -2534,15 +2575,15 @@ rxvt_term::scr_recolor (bool refresh) NOTHROW
        else
  # endif
          {
@@ -759,7 +893,7 @@ diff --git a/src/screen.C b/src/screen.C
      }
  
    XClearWindow (dpy, parent);
-@@ -2553,7 +2593,7 @@ rxvt_term::scr_recolor (bool refresh) NOTHROW
+@@ -2552,7 +2593,7 @@ rxvt_term::scr_recolor (bool refresh) NOTHROW
        if (transparent)
          XSetWindowBackgroundPixmap (dpy, scrollBar.win, ParentRelative);
        else
@@ -769,6 +903,7 @@ diff --git a/src/screen.C b/src/screen.C
        scrollBar.show (0);
      }
 diff --git a/src/scrollbar-next.C b/src/scrollbar-next.C
+index 2d9db7b..8c0679a 100644
 --- a/src/scrollbar-next.C
 +++ b/src/scrollbar-next.C
 @@ -154,15 +154,15 @@ scrollBar_t::init_next ()
@@ -800,6 +935,7 @@ diff --git a/src/scrollbar-next.C b/src/scrollbar-next.C
    //color used by rxvt
    if (color.set (term, rgba (0x51aa, 0x5555, 0x5144)))
 diff --git a/src/scrollbar-plain.C b/src/scrollbar-plain.C
+index cafc574..64b39e6 100644
 --- a/src/scrollbar-plain.C
 +++ b/src/scrollbar-plain.C
 @@ -38,7 +38,7 @@ scrollBar_t::show_plain (int update)
@@ -812,6 +948,7 @@ diff --git a/src/scrollbar-plain.C b/src/scrollbar-plain.C
        pscrollbarGC = XCreateGC (term->dpy, win, GCForeground, &gcvalue);
      }
 diff --git a/src/scrollbar-rxvt.C b/src/scrollbar-rxvt.C
+index 6359081..8bbde6e 100644
 --- a/src/scrollbar-rxvt.C
 +++ b/src/scrollbar-rxvt.C
 @@ -158,11 +158,11 @@ scrollBar_t::show_rxvt (int update)
@@ -830,6 +967,7 @@ diff --git a/src/scrollbar-rxvt.C b/src/scrollbar-rxvt.C
      }
    else
 diff --git a/src/scrollbar-xterm.C b/src/scrollbar-xterm.C
+index e37fe20..7752e4f 100644
 --- a/src/scrollbar-xterm.C
 +++ b/src/scrollbar-xterm.C
 @@ -49,13 +49,13 @@ scrollBar_t::show_xterm (int update)
@@ -850,6 +988,7 @@ diff --git a/src/scrollbar-xterm.C b/src/scrollbar-xterm.C
      }
  
 diff --git a/src/scrollbar.C b/src/scrollbar.C
+index 698c582..c34e234 100644
 --- a/src/scrollbar.C
 +++ b/src/scrollbar.C
 @@ -72,8 +72,8 @@ scrollBar_t::resize ()
