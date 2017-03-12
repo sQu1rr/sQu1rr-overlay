@@ -67,9 +67,10 @@ src_prepare() {
 		use buffer-on-clear && epatch "${FILESDIR}"/${PN}-9.14-clear.patch
 
 		use alt-font-width && epatch "${FILESDIR}"/${PN}-9.06-font-width.patch
-
-		use 24bit && epatch "${FILESDIR}"/${PN}-9.22-24bit.patch
 	fi
+
+	# vanilla should have 24bit support
+	use 24bit && epatch "${FILESDIR}"/${PN}-9.22-24bit.patch
 
 	# kill the rxvt-unicode terminfo file - #192083
 	sed -i -e "/rxvt-unicode.terminfo/d" doc/Makefile.in || die "sed failed"
