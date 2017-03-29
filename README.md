@@ -28,8 +28,10 @@ With 24bit use flag:
 
 Add overlay with layman
 ```bash
-layman -o https://raw.github.com/sQu1rr/sQu1rr-overlay/master/repositories.xml \
-       -f -a sQu1rr
+sudo layman -o https://raw.github.com/sQu1rr/sQu1rr-overlay/master/repositories.xml -a sQu1rr
 ```
 
 And (re)install urxvt
+
+**Warning** Not sure why doesn't layman -S update the overlay, if anyone knows,
+let me know - I do not have time at the moment to research
