@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE repositories SYSTEM "/dtd/repositories.dtd">
 <repositories xmlns="" version="1.0">
-    <repo quality="experimental" status="unofficial">
+    <repo quality="experimental" status="unofficial" priority="50">
         <name><![CDATA[sQu1rr]]></name>
         <description lang="en"><![CDATA[sQu1rr's Overlay]]></description>
         <homepage>http://github.com/sQu1rr/sQu1rr-overlay</homepage>
@@ -9,7 +9,7 @@
             <email>squ1rr1c@gmail.com</email>
             <name><![CDATA[Aleksandr Belkin]]></name>
         </owner>
-        <source type="git">git://github.com/sQu1rr/sQu1rr-overlay.git</source>
+        <source type="git">http://github.com/sQu1rr/sQu1rr-overlay.git</source>
         <feed>http://github.com/sQu1rr/sQu1rr-overlay/commits/master.atom</feed>
     </repo>
 </repositories>
