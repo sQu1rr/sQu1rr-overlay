@@ -4,13 +4,13 @@
 
 ### rxvt-unicode (9.22)
 
+**NOTE: rxvt-unicode-9.22-r4 supports 24-bit-color making this obsolete**
+
 #### Description
 urxvt terminal emulator with full truecolor (24bit) support
 [patch](https://github.com/spudowiar/rxvt-unicode).
 
 To enable 24bit colour add 24bit use flag for rxvt-unicode
-
-*More patches are planned in the future*
 
 #### Testing colour support
 [This script](https://raw.github.com/sQu1rr/sQu1rr-overlay/assets/bash/truecolours.sh)
@@ -26,12 +26,4 @@ With 24bit use flag:
 
 # Using
 
-Add overlay with layman
-```bash
-sudo layman -o https://raw.github.com/sQu1rr/sQu1rr-overlay/master/repositories.xml -a sQu1rr
-```
-
-And (re)install urxvt
-
-**Warning** Not sure why doesn't layman -S update the overlay, if anyone knows,
-let me know - I do not have time at the moment to research
+**There is currently no need to use this overlay**
